@@ -6,12 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RequestMapping("/question")
+@RequiredArgsConstructor
 @Controller
 public class QuestionController {
 
@@ -24,5 +25,14 @@ public class QuestionController {
         List<Question> questionList = questionService.getList();
         model.addAttribute("questionList", questionList);
         return "question_list";
+    }
+
+    // 요청 URL http://localhost:8080/question/detail/2의 숫자 2처럼 변하는 id 값을 얻을 때에는 위와 같이 @PathVariable 애너테이션을 사용해야 한다.
+    // 이 때 @RequestMapping(value = "/question/detail/{id}") 에서 사용한 id와 @PathVariable("id")의 매개변수 이름이 동일해야 한다.
+    @GetMapping("/detail/{id}")
+    public String detail(Model model, @PathVariable("id") Integer id) {
+        Question question = questionService.getQuestion(id);
+        model.addAttribute("question", question);
+        return "question_detail";
     }
 }
