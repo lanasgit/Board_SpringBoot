@@ -1,6 +1,7 @@
 package com.mysite.sbb.controller;
 
 import com.mysite.sbb.domain.question.Question;
+import com.mysite.sbb.dto.AnswerFormDto;
 import com.mysite.sbb.dto.QuestionFormDto;
 import com.mysite.sbb.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -52,9 +53,10 @@ public class QuestionController {
     // 요청 URL http://localhost:8080/question/detail/2의 숫자 2처럼 변하는 id 값을 얻을 때에는 위와 같이 @PathVariable 애너테이션을 사용해야 한다.
     // 이 때 @RequestMapping(value = "/question/detail/{id}") 에서 사용한 id와 @PathVariable("id")의 매개변수 이름이 동일해야 한다.
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerFormDto answerFormDto) {
         Question question = questionService.getQuestion(id);
         model.addAttribute("question", question);
+        model.addAttribute("answerFormDto", answerFormDto);
         return "question_detail";
     }
 }
