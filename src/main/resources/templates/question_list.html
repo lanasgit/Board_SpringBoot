@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr th:each="question, loop : ${paging}">
-                    <td th:text="${loop.count}"></td>
+                    <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
                     <td>
 <!--                    /question/detail/과 같은 문자열과 ${question.id}와 같은 자바 객체의 값을 더할 때는 반드시 다음처럼 |과 | 기호로 좌우를 감싸 주어야 한다.-->
 <!--                    타임리프는 문자열을 연결(concatenation)할 때 | 문자를 사용한다.-->
