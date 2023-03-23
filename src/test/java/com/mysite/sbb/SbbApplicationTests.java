@@ -3,7 +3,6 @@ package com.mysite.sbb;
 import com.mysite.sbb.domain.answer.AnswerRepository;
 import com.mysite.sbb.domain.question.QuestionRepository;
 import com.mysite.sbb.service.QuestionService;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

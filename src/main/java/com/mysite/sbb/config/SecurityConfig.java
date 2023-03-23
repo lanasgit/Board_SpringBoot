@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**").permitAll()
+        http.authorizeRequests().requestMatchers("/**").permitAll()
                 .and()
                     .formLogin()
                     .loginPage("/user/login")
@@ -48,7 +48,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // antMatchers 부분도 deprecated 되어 requestMatchers로 대체
-        return (web) -> web.ignoring().antMatchers("/resources/**");
+        return (web) -> web.ignoring().requestMatchers("/resources/**");
     }
 
     @Bean

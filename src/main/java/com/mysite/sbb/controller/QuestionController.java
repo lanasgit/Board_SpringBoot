@@ -6,6 +6,7 @@ import com.mysite.sbb.dto.AnswerFormDto;
 import com.mysite.sbb.dto.QuestionFormDto;
 import com.mysite.sbb.service.QuestionService;
 import com.mysite.sbb.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 @RequestMapping("/question")

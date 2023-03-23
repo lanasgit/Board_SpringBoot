@@ -1,7 +1,6 @@
 package com.mysite.sbb.service;
 
 import com.mysite.sbb.common.exception.DataNotFoundException;
-import com.mysite.sbb.domain.answer.Answer;
 import com.mysite.sbb.domain.question.Question;
 import com.mysite.sbb.domain.question.QuestionRepository;
 import com.mysite.sbb.domain.user.User;
@@ -10,10 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

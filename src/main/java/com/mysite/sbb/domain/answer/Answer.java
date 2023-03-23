@@ -2,11 +2,11 @@ package com.mysite.sbb.domain.answer;
 
 import com.mysite.sbb.domain.question.Question;
 import com.mysite.sbb.domain.user.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
