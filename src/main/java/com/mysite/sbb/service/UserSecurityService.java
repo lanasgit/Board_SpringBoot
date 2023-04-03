@@ -1,11 +1,12 @@
 package com.mysite.sbb.service;
 
-import com.mysite.sbb.domain.user.User;
+import com.mysite.sbb.domain.user.SiteUser;
 import com.mysite.sbb.domain.user.UserRepository;
 import com.mysite.sbb.domain.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,17 +24,17 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = this.userRepository.findByusername(username);
-        if (!user.isPresent()) {
-            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+        Optional<SiteUser> _siteUser = this.userRepository.findByusername(username);
+        if (!_siteUser.isPresent()) {
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
-        User siteUser = user.get();
+        SiteUser siteUser = _siteUser.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         if ("admin".equals(username)) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
         }
-        return new org.springframework.security.core.userdetails.User(siteUser.getUsername(), siteUser.getPassword(), authorities);
+        return new User(siteUser.getUsername(), siteUser.getPassword(), authorities);
     }
 }

@@ -4,7 +4,7 @@ import com.mysite.sbb.common.exception.DataNotFoundException;
 import com.mysite.sbb.domain.answer.Answer;
 import com.mysite.sbb.domain.answer.AnswerRepository;
 import com.mysite.sbb.domain.question.Question;
-import com.mysite.sbb.domain.user.User;
+import com.mysite.sbb.domain.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public Answer create(Question question, String content, User author) {
+    public Answer create(Question question, String content, SiteUser author) {
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setCreateDate(LocalDateTime.now());
@@ -46,8 +46,8 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
-    public void vote(Answer answer, User user) {
-        answer.getVoter().add(user);
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser);
         answerRepository.save(answer);
     }
 }

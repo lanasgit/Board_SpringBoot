@@ -1,16 +1,14 @@
 package com.mysite.sbb.config;
 
-import com.mysite.sbb.service.UserSecurityService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,16 +18,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 // @EnableWebSecurity는 모든 요청 URL이 스프링 시큐리티의 제어를 받도록 만드는 애너테이션이다. 내부적으로 SpringSecurityFilterChain이 동작하여 URL 필터가 적용된다.
 @EnableWebSecurity
-@RequiredArgsConstructor
-// @EnableGlobalMethodSecurity(prePostEnabled = true): @PreAuthorize 애너테이션을 사용하기 위해 반드시 필요하다.
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    private final UserSecurityService userSecurityService;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().requestMatchers("/**").permitAll()
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests().requestMatchers(
+                        new AntPathRequestMatcher("/**")).permitAll()
                 .and()
                     .formLogin()
                     .loginPage("/user/login")
@@ -40,24 +35,28 @@ public class SecurityConfig {
                     .logoutSuccessUrl("/")
                     .invalidateHttpSession(true)
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .csrf().disable()
         ;
+
         return http.build();
     }
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
+    WebSecurityCustomizer webSecurityCustomizer() {
         // antMatchers 부분도 deprecated 되어 requestMatchers로 대체
-        return (web) -> web.ignoring().requestMatchers("/resources/**");
+        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .requestMatchers(
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**");
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }

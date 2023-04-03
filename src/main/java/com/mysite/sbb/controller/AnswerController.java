@@ -2,7 +2,7 @@ package com.mysite.sbb.controller;
 
 import com.mysite.sbb.domain.answer.Answer;
 import com.mysite.sbb.domain.question.Question;
-import com.mysite.sbb.domain.user.User;
+import com.mysite.sbb.domain.user.SiteUser;
 import com.mysite.sbb.dto.AnswerFormDto;
 import com.mysite.sbb.service.AnswerService;
 import com.mysite.sbb.service.QuestionService;
@@ -35,12 +35,12 @@ public class AnswerController {
     @PostMapping("/create/{id}")
     public String createAnswer(Model model, @PathVariable("id") Integer id, @Valid AnswerFormDto answerFormDto, BindingResult bindingResult, Principal principal) {
         Question question = questionService.getQuestion(id);
-        User user = userService.getUser(principal.getName());
+        SiteUser siteUser = userService.getUser(principal.getName());
         if (bindingResult.hasErrors()) {
             model.addAttribute("question", question);
             return "question_detail";
         }
-        Answer answer = answerService.create(question, answerFormDto.getContent(), user);
+        Answer answer = answerService.create(question, answerFormDto.getContent(), siteUser);
         return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
     }
 
@@ -85,8 +85,8 @@ public class AnswerController {
     @GetMapping("/vote/{id}")
     public String answerVote(Principal principal, @PathVariable("id") Integer id) {
         Answer answer = answerService.getAnswer(id);
-        User user = userService.getUser(principal.getName());
-        answerService.vote(answer, user);
+        SiteUser siteUser = userService.getUser(principal.getName());
+        answerService.vote(answer, siteUser);
         return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
     }
 }

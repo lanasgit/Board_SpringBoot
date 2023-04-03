@@ -1,10 +1,9 @@
 package com.mysite.sbb.service;
 
 import com.mysite.sbb.common.exception.DataNotFoundException;
-import com.mysite.sbb.domain.user.User;
+import com.mysite.sbb.domain.user.SiteUser;
 import com.mysite.sbb.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User create(String username, String email, String password) {
-        User user = new User();
+    public SiteUser create(String username, String email, String password) {
+        SiteUser user = new SiteUser();
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
@@ -26,8 +25,8 @@ public class UserService {
         return user;
     }
 
-    public User getUser(String username) {
-        Optional<User> user = userRepository.findByusername(username);
+    public SiteUser getUser(String username) {
+        Optional<SiteUser> user = userRepository.findByusername(username);
         if (user.isPresent()) {
             return user.get();
         } else {

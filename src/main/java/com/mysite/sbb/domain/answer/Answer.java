@@ -1,7 +1,7 @@
 package com.mysite.sbb.domain.answer;
 
 import com.mysite.sbb.domain.question.Question;
-import com.mysite.sbb.domain.user.User;
+import com.mysite.sbb.domain.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +30,8 @@ public class Answer {
     private Question question;
 
     @ManyToOne
-    private User author;
+    private SiteUser author;
 
     @ManyToMany
-    Set<User> voter;
+    Set<SiteUser> voter;
 }

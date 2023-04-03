@@ -15,3 +15,19 @@ spring:
         use_sql_comments: true
   jwt:
     secret: jwtsecrethostingjwtsecrethostingjwtsecrethostingjwtsecrethostingjwtsecrethosting
+
+springdoc:
+  packages-to-scan: com.mysite.sbb
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: board-api.html             # Swagger UI 경로 => {host:port}/swagger-ui/index.html 또는 {host:port}/board-api.html
+    tags-sorter: alpha               # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha         # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    display-request-duration: true   # Swagger-ui에서 API 실행 시 처리 소요 시간의 표시
+  api-docs:
+    path: /v3/api-docs
+    groups:
+      enabled: true
+  cache:
+    disabled: true
